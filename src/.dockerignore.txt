@@ -1,4 +1,0 @@
-.spyproject
-
-.git
-requirements_specific.txt
