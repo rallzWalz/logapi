@@ -1,94 +1,63 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2638
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Bold;\f2\froman\fcharset0 Times-Roman;
-}
-{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue254;\red29\green0\blue255;
-}
-{\*\expandedcolortbl;;\csgray\c0;\cssrgb\c100000\c100000\c99608;\cssrgb\c16471\c0\c100000;
-}
-\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+FLASK Logging API 
+By Rall Walsh
+Copyright 2022
+All rights reserved. 
 
-\f0\fs22 \cf2 \CocoaLigature0 FLASK Logging API \
-By Rall Walsh\
-Copyright 2022\
-All rights reserved. \
-\
-To execute: \
+To execute: 
+Clone/download repo.
 
-\f1\b Clone/download repo.\
-\
+Make sure you have docker installed: 
+https://docs.docker.com/get-docker/
 
-\f0\b0 Make sure you have docker installed: \
-https://docs.docker.com/get-docker/\
-\
-CD into logapi/src directory\
+CD into logapi/src directory
 
-\f1\b \
 On a Mac/linux run
-\f0\b0 \
-./run_api.sh\
-\
+./run_api.sh
 
-\f1\b On platforms other than Mac, you can try running the Docker commands from the .SH file individually: \
-First:\
-docker build -t test -f ./API_Dockerfile . \
-\
-\pard\pardeftab720\partightenfactor0
+On platforms other than Mac, you can try running the Docker commands from the .SH file individually: 
+First:
+docker build -t test -f ./API_Dockerfile . 
 
-\f0\b0 But replace $dir in the second docker command (below) with the path to the src directory. \
-docker run -p 8080:8080 -v $dir:/src --rm test\
-\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-\
-This will: \
-Build a docker image\
-Run the docker image that has a Flask logging API to a text file. \
-Mount the image onto your local directory so that logs persist between executions. \
-\
-Test the API with the following CURLs: \
-\
-\pard\pardeftab720\partightenfactor0
+But replace $dir in the second docker command (below) with the path to the src directory. 
+docker run -p 8080:8080 -v $dir:/src --rm test
 
-\f2\fs24 \cf0 \cb3 \expnd0\expndtw0\kerning0
-\CocoaLigature1 curl --location --request POST \cf4 '0.0.0.0:8080/api/log'\cf0  \\\cb1 \
-\cb3 --header \cf4 'Content-Type: application/json'\cf0  \\\cb1 \
-\cb3 --data-raw \cf4 '\{\cf0 \cb1 \
-\cb3     \cf4 "logEntries"\cf0 : [\cb1 \
-\cb3         \cf4 "<entry text 1>"\cf0 ,\cb1 \
-\cb3         \cf4 "<entry text 2>"\cf0 \cb1 \
-\cb3     ]\cb1 \
-\cb3 \}\cf4 '\cf0 \cb1 \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f0\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
-\
-\
-\pard\pardeftab720\partightenfactor0
+This will: 
+Build a docker image
+Run the docker image that has a Flask logging API to a text file. 
+Mount the image onto your local directory so that logs persist between executions. 
 
-\f2\fs24 \cf0 \cb3 \expnd0\expndtw0\kerning0
-\CocoaLigature1 curl --location --request GET \cf4 '0.0.0.0:8080/api/log?num_lines=4'\cf0  \\\cb1 \
-\cb3 --header \cf4 'Content-Type: application/json'\cf0  \cb1 \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+Test the API with the following CURLs: 
 
-\f0\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
-\
+curl --location --request POST '0.0.0.0:8080/api/log' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "logEntries": [
+        "<entry text 1>",
+        "<entry text 2>"
+    ]
+}'
 
-\f1\b Note:
-\f0\b0 \
-This requires volume mounting so you may need to add a folder containing the reop folder in your Docker configs. You\'92ll see a message like this below. \
-\
-The path /users/rall/Documents/Repos/logapi/src is not shared from the host and is not known to Docker.\
-You can configure shared paths from Docker -> Preferences... -> Resources -> File Sharing.\
-\
-\
-\
-Contents:\
-Logs/logs.txt a log file that this API adds to and reads from. \
-app.py a python Flask app\
-Requirements.txt minimalist requirements for docker environment\
-requirements_specific.txt my actual local de environment, what I used but you shouldn\'92t need to. \
-API_Dockerfile a Dockerfile that rockeries app.py \
-run_api.sh a shell script that builds and runs the docker image with volume mounting and port mapping.\
-\
-\
-}
+
+
+curl --location --request GET '0.0.0.0:8080/api/log?num_lines=4' \
+--header 'Content-Type: application/json' 
+
+
+Note:
+This requires volume mounting so you may need to add a folder containing the reop folder in your Docker configs. You’ll see a message like this below. 
+
+The path /users/rall/Documents/Repos/logapi/src is not shared from the host and is not known to Docker.
+You can configure shared paths from Docker -> Preferences... -> Resources -> File Sharing.
+
+
+
+Contents:
+Logs/logs.txt a log file that this API adds to and reads from. 
+app.py a python Flask app
+Requirements.txt minimalist requirements for docker environment
+requirements_specific.txt my actual local de environment, what I used but you shouldn’t need to. 
+API_Dockerfile a Dockerfile that rockeries app.py 
+run_api.sh a shell script that builds and runs the docker image with volume mounting and port mapping.
+
+
