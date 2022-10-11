@@ -1,0 +1,14 @@
+FROM python:3.9-slim
+
+RUN apt-get update
+
+WORKDIR /src
+
+COPY . /src
+
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+
+ENTRYPOINT [ "python" ]
+
+CMD ["app.py" ]
