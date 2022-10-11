@@ -22,7 +22,6 @@ import json
 
 
 root = os.path.dirname(os.path.abspath(__file__))
-print('root=, ', root)
 logdir = os.path.join(root, 'logs')
 if not os.path.exists(logdir):
     os.mkdir(logdir)
@@ -55,6 +54,7 @@ app = Flask(__name__)
 
 @app.before_first_request
 def before_first_request():
+    '''Get handler, get text file, make logger log to text file. '''
     log_level = logging.INFO
 
     for handler in app.logger.handlers:
@@ -77,6 +77,12 @@ def before_first_request():
 
 @app.route('/api/log', methods=['POST', 'GET'])
 def log_msg():
+    ''' Get and post methods from one endpoint, 
+        If post method, then take messages and save them to file. 
+        if Get or not post, then return text from log file. 
+        Allow number of lines specified, or default to 10 lines. 
+        Read most recent first. 
+        If succsessful, return 200'''
     if request.method == 'POST':
         body = request.get_json()
         msgs = dict(body).get('logEntries', [])
@@ -84,8 +90,8 @@ def log_msg():
             app.logger.info(amsg)
         return '200 success'
     else:  # assume get if not post
-        print('was a get')
-        respdata = ''
+        # print('was a get')
+        respdata = ''  # build text response
         numlines = int(request.args.get('num_lines', 10))
         with open(log_file, 'r') as file:
             # loop to read iterate
@@ -101,6 +107,7 @@ def log_msg():
 
 
 if __name__ == '__main__':
+    # start app, port 8080
     logging.info("Starting API...")
     app.run(
         host="0.0.0.0",

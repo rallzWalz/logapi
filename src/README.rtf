@@ -54,10 +54,10 @@ You can configure shared paths from Docker -> Preferences... -> Resources -> Fil
 
 Contents:
 Logs/logs.txt a log file that this API adds to and reads from. 
-app.py a python Flask app
+app.py a python Flask app with get and post methods
 Requirements.txt minimalist requirements for docker environment
-requirements_specific.txt my actual local de environment, what I used but you shouldn’t need to. 
-API_Dockerfile a Dockerfile that rockeries app.py 
+requirements_specific.txt my actual local dev environment, what I used but you shouldn’t need to. 
+API_Dockerfile a Dockerfile that dockerizes app.py 
 run_api.sh a shell script that builds and runs the docker image with volume mounting and port mapping.
 
 
